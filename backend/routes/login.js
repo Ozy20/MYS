@@ -35,7 +35,7 @@ router.post("/employee", async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ error: "Missing Field. All fields are required" })
         }
-        const employee = await db.employee.findOne({ where: { email } });
+        const employee = await db.Employee.findOne({ where: { email } });
         if (!employee) {
             return res.status(400).json({ error: "Invalid email or password" })
         }

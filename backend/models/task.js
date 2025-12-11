@@ -3,7 +3,7 @@ const manager = require("./manager")
 
 module.exports = (sequelize, DataTypes) => {
     const Task = sequelize.define(
-        "tasks",
+        "Task",
         {
             id: {
                 type: DataTypes.INTEGER,

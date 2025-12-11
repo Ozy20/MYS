@@ -1,7 +1,7 @@
 const task = require("./task");
 
 module.exports = (sequelize, DataTypes) => {
-    const Report = sequelize.define('Reports', {
+    const Report = sequelize.define('Report', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,

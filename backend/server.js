@@ -3,10 +3,10 @@ const express = require("express")
 const app = express()
 const PORT = process.env.PORT || 3000
 const db = require("./models")
-const getAllManagers = require("./database_test/allManagers.js")
+//const getAllManagers = require("./database_test/allManagers.js")
 const loginRoutes = require("./routes/login.js")
 const signupRoutes = require("./routes/signup.js")
-
+const managerRoutes = require("./routes/managerRoutes.js")
 // middlewares
 app.use(express.json())
 app.use((req, res, next) => {
@@ -23,6 +23,7 @@ app.use((req, res, next) => {
 // routes
 app.use("/login", loginRoutes)
 app.use("/signup", signupRoutes)
+app.use("/manager", managerRoutes)
 
 db.sequelize.sync().then(()=>{
     console.log("Database synchronized")

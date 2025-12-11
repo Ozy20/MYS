@@ -5,7 +5,7 @@ const managerSchema = {
     type: "object",
     properties: {
         name: { type: "string", minLength: 2, maxLength: 100 },
-        email: { type: "string", format: "email" },
+        email: { type: "string"},
         password: { type: "string", minLength: 6 }
     },
     required: ["name", "email", "password"],

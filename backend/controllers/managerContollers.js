@@ -1,4 +1,6 @@
 const db = require('../models');
+const bcrypt = require('bcryptjs');
+const { Op } = require('sequelize');
 
 const getAllEmployees = async (req, res) => {
     try {
@@ -17,6 +19,7 @@ const getAllTasks = async (req, res) => {
         return res.status(200).json({ message, tasks });
     }
     catch (err) {
+        console.error("Fetch tasks error:", err);
         return res.status(500).json({ error: "Failed to fetch tasks" });
     }
 }
@@ -27,39 +30,51 @@ const getAllReports = async (req, res) => {
         return res.status(200).json({ message, reports });
     }
     catch (err) {
+        console.error("Fetch reports error:", err);
         return res.status(500).json({ error: "Failed to fetch reports" });
     }
 }
 
 const createEmployee = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        if (!name || !email || !password) {
+        const t = await db.sequelize.transaction();
+        const { name, email, userName, password } = req.body;
+        if (!name || !email || !userName || !password) {
             return res.status(400).json({ error: "All fields are required" });
         }
-        const existingEmployee = await db.Employee.findOne({ where: { email } });
+        const existingEmployee = await db.Employee.findOne({
+            where: {
+                [Op.or]: [
+                    { email: email },
+                    { userName: userName }
+                ]
+            }
+        });
         if (existingEmployee) {
-            return res.status(400).json({ error: "Employee with this email already exists" });
+            return res.status(400).json({ error: "Employee with this email or the userName already exists" });
         }
-        const newEmployee = await db.Employee.create({ name, email, password, managerId: req.user.id });
-        await db.Manager.increment('numOfEmployees', { by: 1, where: { id: req.user.id } });
+        const newEmployee = await db.Employee.create({ name, email, userName,
+             password, managerId: req.user.id },{transaction: t});
+        await db.Manager.increment('numOfEmployees', { by: 1, where: { id: req.user.id } },{transaction: t});
+        await t.commit();
         return res.status(201).json({ message: "Employee created successfully", employee: newEmployee });
     }
     catch (err) {
-        return res.status(500).json({ error: "Failed to create employee" });
+        console.error("Create employee error:", err);
+        return res.status(500).json({ error: "Failed to create employee", details: err.message });
     }
 }
 const deleteEmployee = async (req, res) => {
     try {
         const { empUserName } = req.body;
-        const employee = await db.Employee.findOne({ where: { name: empUserName } });
+        const employee = await db.Employee.findOne({ where: { userName: empUserName } });
         if (!employee) {
             return res.status(404).json({ error: "Employee not found" });
         }
         if (employee.managerId !== req.user.id) {
             return res.status(403).json({ error: "You are not authorized to delete this employee" });
         }
-        await db.Employee.destroy({ where: { name: empUserName } });
+        await db.Employee.destroy({ where: { userName: empUserName } });
         return res.status(200).json({ message: "Employee deleted successfully" });
     }
     catch (err) {
@@ -73,7 +88,7 @@ const assignTask = async (req, res) => {
         if (!title || !description || !empUserName) {
             return res.status(400).json({ error: "All fields are required" });
         }
-        const employee = await db.Employee.findOne({ where: { name: empUserName } });
+        const employee = await db.Employee.findOne({ where: { userName: empUserName } });
         if (!employee) {
             return res.status(404).json({ error: "Employee not found" });
         }

@@ -1,5 +1,6 @@
+const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
-    const Employee = sequelize.define('Employees', {
+    const Employee = sequelize.define('Employee', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -14,17 +15,17 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: { msg: "Name cannot be empty" }
             }
         },
-        userName:{
-            type:DataTypes.STRING,
-            allowNull:false,
-            unique:true,
-            validate:{
-                notEmpty:{msg:"Username cannot be empty"},
-                notContains:{
-                    args:[' '],
-                    msg:'Username cannot contain spaces.'
+        userName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            validate: {
+                notEmpty: { msg: "Username cannot be empty" },
+                notContains: {
+                    args: [' '],
+                    msg: 'Username cannot contain spaces.'
                 }
-                ,len:[6,15]
+                , len: [6, 15]
             }
         },
         email: {
@@ -52,7 +53,20 @@ module.exports = (sequelize, DataTypes) => {
         managerId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-    }});
+        }
+    }
+        ,
+        {
+            hooks: {
+                beforeCreate: async (manager) => {
+                    if (manager.password) {
+                        const salt = await bcrypt.genSalt(10);
+                        manager.password = await bcrypt.hash(manager.password, salt);
+                    }
+                }
+            }
+        }
+    );
 
     return Employee;
 }

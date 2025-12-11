@@ -17,3 +17,5 @@ router.post('/create-employee', verifyToken, isManager, managerControllers.creat
 router.delete('/delete-employee', verifyToken, isManager, managerControllers.deleteEmployee);
 //assign task
 router.post('/assign-task', verifyToken, isManager, managerControllers.assignTask);
+
+module.exports = router;
