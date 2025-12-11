@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 module.exports = (sequelize, DataTypes) => {
-    const Manager = sequelize.define('Managers', {
+    const Manager = sequelize.define('Manager', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
