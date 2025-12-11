@@ -7,6 +7,7 @@ const db = require("./models")
 const loginRoutes = require("./routes/login.js")
 const signupRoutes = require("./routes/signup.js")
 const managerRoutes = require("./routes/managerRoutes.js")
+const employeeRoutes = require("./routes/emploeeRoutes.js")
 // middlewares
 app.use(express.json())
 app.use((req, res, next) => {
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 app.use("/login", loginRoutes)
 app.use("/signup", signupRoutes)
 app.use("/manager", managerRoutes)
+app.use("/employee", employeeRoutes)
 
 db.sequelize.sync().then(()=>{
     console.log("Database synchronized")

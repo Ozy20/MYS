@@ -1,5 +1,4 @@
 const db = require('../models');
-const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
 
 const getAllEmployees = async (req, res) => {
@@ -10,28 +9,6 @@ const getAllEmployees = async (req, res) => {
     }
     catch (err) {
         return res.status(500).json({ error: "Failed to fetch employees" });
-    }
-}
-const getAllTasks = async (req, res) => {
-    try {
-        const tasks = await db.Task.findAll({ where: { managerId: req.user.id } });
-        const message = tasks.length > 0 ? "Tasks fetched successfully" : "No tasks found";
-        return res.status(200).json({ message, tasks });
-    }
-    catch (err) {
-        console.error("Fetch tasks error:", err);
-        return res.status(500).json({ error: "Failed to fetch tasks" });
-    }
-}
-const getAllReports = async (req, res) => {
-    try {
-        const reports = await db.Report.findAll({ where: { managerId: req.user.id } });
-        const message = reports.length > 0 ? "Reports fetched successfully" : "No reports found";
-        return res.status(200).json({ message, reports });
-    }
-    catch (err) {
-        console.error("Fetch reports error:", err);
-        return res.status(500).json({ error: "Failed to fetch reports" });
     }
 }
 
@@ -64,6 +41,24 @@ const createEmployee = async (req, res) => {
         return res.status(500).json({ error: "Failed to create employee", details: err.message });
     }
 }
+const getEmployeeById = async (req,res)=>{
+    try{
+        const { empId } = req.params;
+        const employee = await db.Employee.findOne({ where: { id: empId, managerId: req.user.id } });
+        if(!employee){
+            return res.status(404).json({ error: "Employee not found or not authorized" });
+        }
+        if(req.user.id !== employee.managerId){
+            return res.status(403).json({ error: "You are not authorized to access this employee's details" });
+        }
+        return res.status(200).json({ message: "Employee details fetched successfully", employee });
+    }
+    catch(err){
+        //ERROR DETAILS
+        return res.status(500).json({ error: "Failed to fetch employee details" , details: err.message });
+    }
+}
+
 const deleteEmployee = async (req, res) => {
     try {
         const { empUserName } = req.body;
@@ -82,38 +77,11 @@ const deleteEmployee = async (req, res) => {
     }
 }
 
-const assignTask = async (req, res) => {
-    try {
-        const { title, description, empUserName } = req.body
-        if (!title || !description || !empUserName) {
-            return res.status(400).json({ error: "All fields are required" });
-        }
-        const employee = await db.Employee.findOne({ where: { userName: empUserName } });
-        if (!employee) {
-            return res.status(404).json({ error: "Employee not found" });
-        }
-        if (employee.managerId !== req.user.id) {
-            return res.status(403).json({ error: "You are not authorized to assign tasks to this employee" });
-        }
-        const newTask = await db.Task.create({
-            title, description,
-            empId: employee.id,
-            managerId: req.user.id,
-            status: "pend"
-        });
-        return res.status(201).json({ message: "Task assigned successfully", task: newTask });
-    }
-    catch (err) {
-        return res.status(500).json({ error: "Failed to assign task" });
 
-    }
-}
 
 module.exports = {
     getAllEmployees,
-    getAllTasks,
-    getAllReports,
     createEmployee,
     deleteEmployee,
-    assignTask
+    getEmployeeById
 }
