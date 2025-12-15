@@ -17,7 +17,7 @@ function Tasks() {
     return (
         <div id="tasks-page-container">
             <div className="task-list">
-                <h2 style={{ paddingLeft: '1rem', paddingTop: '1rem' }}>All Tasks</h2>
+                <h2 style={{ paddingLeft: '1rem', paddingTop: '1rem', width: '100%' }}>All Tasks</h2>
                 <div style={{ overflowY: 'auto', height: 'calc(100% - 60px)', padding: '0 1rem 1rem 1rem' }}>
                     {tasks.map(task => (
                         <Card

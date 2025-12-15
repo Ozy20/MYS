@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import Card from '../../components/common/Card';
 import './tasks.css'; // Reusing task styles
 
 function TaskDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { userRole } = useOutletContext();
+    const { isEmployee } = useAuth();
 
     const task = {
         id: id,
@@ -67,7 +68,7 @@ function TaskDetails() {
                     <div>Created on: <strong>{task.createdDate}</strong></div>
                 </div>
 
-                {userRole === 'employee' && (
+                {isEmployee && (
                     <div style={{ marginTop: 'auto', paddingTop: '2rem', borderTop: '1px solid #eee' }}>
                         <h3 style={{ color: '#4A628A', fontSize: '1.1rem', marginBottom: '1rem' }}>Submit Report / Update</h3>
                         <textarea

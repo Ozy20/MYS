@@ -1,13 +1,15 @@
-import { Navigate, useOutletContext } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import ManagerDash from "../../components/dash/managerDash"
+import { useAuth } from '../../context/AuthContext';
+
 function Dashboard() {
-    const { userRole } = useOutletContext();
+    const { isManager } = useAuth();
 
     return (
         <div id="dash-content">
 
             {
-                userRole === 'manager' ? <ManagerDash /> : <Navigate to="/app/tasks" replace />
+                isManager ? <ManagerDash /> : <Navigate to="/app/tasks" replace />
             }
         </div>
     );

@@ -8,6 +8,7 @@ import Tasks from './pages/tasks/Tasks.jsx'
 import TaskDetails from './pages/tasks/TaskDetails.jsx'
 import Reports from './pages/reports/Reports.jsx'
 import ReportDetails from './pages/reports/ReportDetails.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider, Routes } from "react-router-dom"
 
 const router = createBrowserRouter(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider> <RouterProvider router={router} /></AuthProvider>
+
   </StrictMode>,
 )

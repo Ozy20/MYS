@@ -1,10 +1,13 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './sideNav.css';
 
-function SideNav({ userRole }) {
+function SideNav() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { isManager } = useAuth();
+    const userRole = isManager ? 'manager' : 'employee';
 
     const handleNavClick = (path) => {
         navigate(path);
