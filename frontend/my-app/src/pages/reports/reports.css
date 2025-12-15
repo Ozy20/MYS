@@ -1,0 +1,65 @@
+/* CSS for Reports Page */
+
+.report-list {
+    /* Renaming from task-list to avoid confusion, though structure is same */
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+}
+
+.report-card {
+    /* Renaming from task-card */
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    /* Border left is handled inline based on status, or we can add classes */
+}
+
+.report-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+.report-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.report-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #e3e8ee;
+    color: #4A628A;
+}
+
+#reports-page-container {
+    padding: 10px;
+    background-color: #f4f6f8;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#reports-page-container h2 {
+    color: #4A628A;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
+}

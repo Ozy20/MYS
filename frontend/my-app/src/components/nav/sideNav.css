@@ -1,3 +1,13 @@
+#nav-container{
+    height: 100vh;
+    background-color: #DFF2EB;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    min-width: 250px;
+}
 #nav{
     display: flex;
     flex-direction: column;

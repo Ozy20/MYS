@@ -1,16 +1,16 @@
-import React,{useState} from 'react';
-import EmpDash from '../../components/dash/empDash';
-import ManagerDash from '../../components/dash/managerDash';
-
+import { Navigate, useOutletContext } from 'react-router-dom';
+import ManagerDash from "../../components/dash/managerDash"
 function Dashboard() {
-    const [userRole, setUserRole] = useState('manager'); 
-    return ( 
+    const { userRole } = useOutletContext();
+
+    return (
         <div id="dash-content">
+
             {
-                userRole === 'manager' ? <ManagerDash /> : <EmpDash />
+                userRole === 'manager' ? <ManagerDash /> : <Navigate to="/app/tasks" replace />
             }
         </div>
-     );
+    );
 }
 
 export default Dashboard;

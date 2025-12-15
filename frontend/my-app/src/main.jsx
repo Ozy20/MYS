@@ -3,6 +3,11 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import Login from './pages/login/Login.jsx'
+import Dashboard from './pages/dashboard/dashboard.jsx'
+import Tasks from './pages/tasks/Tasks.jsx'
+import TaskDetails from './pages/tasks/TaskDetails.jsx'
+import Reports from './pages/reports/Reports.jsx'
+import ReportDetails from './pages/reports/ReportDetails.jsx'
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider, Routes } from "react-router-dom"
 
 const router = createBrowserRouter(
@@ -10,10 +15,11 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Login />} />
       <Route path="/app" element={<App />}>
-        <Route path="dashboard" element={<div style={{ color: 'black' }}>Dashboard</div>} />
-        <Route path="my-tasks" element={<div>My Tasks</div>} />
-        <Route path="assign-task" element={<div>Assign Task</div>} />
-        <Route path="reports" element={<div>Reports</div>} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="tasks" element={<Tasks />} />
+        <Route path="tasks/:id" element={<TaskDetails />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="reports/:id" element={<ReportDetails />} />
       </Route>
     </>
   )

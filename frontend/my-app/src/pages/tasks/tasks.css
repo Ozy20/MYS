@@ -1,0 +1,74 @@
+.task-list {
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    /* FLEXBOX FIX STARTS HERE */
+    flex: 1;
+    overflow: hidden;
+}
+
+.task-card {
+    border-left: 5px solid #4A628A;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+}
+
+.task-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+.task-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.task-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: #e3e8ee;
+    color: #4A628A;
+}
+
+/* Include dash container style if not imported globally, 
+   but since user wants separate css, we can include container style here or rely on global.
+   The user said "modify also dash.css to contain only the css of the dashboards".
+   I will duplicate the necessary container style or assume they want a shared layout.
+   For now, I'll copy the container style to be safe or rely on a common class if possible.
+   Actually, the component wraps itself in <div id="dash">, so we need that style available.
+   I'll include the #dash style here or renaming it to a generic page container. 
+   To be cleaner, I'll allow #dash to remain in dash.css (or a shared css) and import it, OR copy it.
+   Given "own css", I'll copy the container styles relevant to this page.
+*/
+
+#tasks-page-container {
+    /* Renaming ID for clarity, will update component */
+    padding: 10px;
+    background-color: #f4f6f8;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#tasks-page-container h2 {
+    color: #4A628A;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
+}

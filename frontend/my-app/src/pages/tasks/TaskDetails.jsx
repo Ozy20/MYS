@@ -1,0 +1,102 @@
+import React, { useState } from 'react';
+import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
+import Card from '../../components/common/Card';
+import './tasks.css'; // Reusing task styles
+
+function TaskDetails() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { userRole } = useOutletContext();
+
+    const task = {
+        id: id,
+        title: 'Fix Login Bug',
+        description: 'Investigate and fix the login issue on mobile devices. Users are reporting timeouts when on 4G.',
+        assignee: 'john_doe',
+        status: 'Pending',
+        createdDate: '2024-12-01'
+    };
+
+    const [reportText, setReportText] = useState('');
+
+    const handleReportSubmit = () => {
+        alert(`Report submitted for Task ${id}: ${reportText}`);
+        setReportText('');
+    };
+
+    return (
+        <div id="tasks-page-container">
+            <div style={{ marginBottom: '1rem' }}>
+                <button
+                    onClick={() => navigate(-1)}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#4A628A',
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px'
+                    }}
+                >
+                    &larr; Back to Tasks
+                </button>
+            </div>
+
+            <Card style={{ flex: 1, overflowY: 'auto' }}>
+                <div style={{ borderBottom: '1px solid #eee', paddingBottom: '1rem', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2 style={{ margin: 0, color: '#2c3e50' }}>{task.title}</h2>
+                        <span className="task-status" style={{
+                            backgroundColor: task.status === 'Completed' ? '#d4edda' : task.status === 'In Progress' ? '#fff3cd' : '#f8d7da',
+                            color: task.status === 'Completed' ? '#155724' : task.status === 'In Progress' ? '#856404' : '#721c24'
+                        }}>
+                            {task.status}
+                        </span>
+                    </div>
+                </div>
+
+                <div style={{ marginBottom: '2rem' }}>
+                    <h3 style={{ color: '#4A628A', fontSize: '1.1rem' }}>Description</h3>
+                    <p style={{ color: '#555', lineHeight: '1.6' }}>{task.description}</p>
+                </div>
+
+                <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', color: '#666', fontSize: '0.9rem' }}>
+                    <div>Assigned to: <strong>{task.assignee}</strong></div>
+                    <div>Created on: <strong>{task.createdDate}</strong></div>
+                </div>
+
+                {userRole === 'employee' && (
+                    <div style={{ marginTop: 'auto', paddingTop: '2rem', borderTop: '1px solid #eee' }}>
+                        <h3 style={{ color: '#4A628A', fontSize: '1.1rem', marginBottom: '1rem' }}>Submit Report / Update</h3>
+                        <textarea
+                            value={reportText}
+                            onChange={(e) => setReportText(e.target.value)}
+                            placeholder="Type your progress report here..."
+                            style={{
+                                width: '95%',
+                                minHeight: '100px',
+                                padding: '12px',
+                                borderRadius: '8px',
+                                border: '1px solid #ddd',
+                                fontFamily: 'inherit',
+                                resize: 'vertical',
+                                marginBottom: '1rem'
+                            }}
+                        />
+                        <button
+                            className="btn-submit"
+                            onClick={handleReportSubmit}
+                            style={{ width: 'auto', padding: '10px 24px' }}
+                        >
+                            Submit Report
+                        </button>
+                    </div>
+                )}
+            </Card>
+        </div>
+    );
+}
+
+export default TaskDetails;
