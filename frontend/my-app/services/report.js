@@ -1,9 +1,8 @@
-import { useAuth } from "../src/context/AuthContext";
 import api from "./api";
 
-const getReports = async () => {
+const getReports = async (role) => {
     try {
-        const response = await api.get("/manager/reports");
+        const response = await api.get(`/${role}/reports`);
         return { error: null, reports: response.data.reports }
     }
     catch (axiosError) {
@@ -12,9 +11,20 @@ const getReports = async () => {
     }
 }
 
-const getSingleReport = async (id) => {
+const getSingleReport = async (id, role) => {
     try {
-        const response = await api.get(`/manager/reports/${id}`);
+        const response = await api.get(`/${role}/reports/${id}`);
+        return { error: null, report: response.data.report }
+    }
+    catch (axiosError) {
+        console.log(axiosError)
+        return { error: axiosError, report: null }
+    }
+}
+
+const sendReport = async (report, role) => {
+    try {
+        const response = await api.post(`/${role}/reports/create`, report);
         return { error: null, report: response.data.report }
     }
     catch (axiosError) {
@@ -25,5 +35,6 @@ const getSingleReport = async (id) => {
 
 export default {
     getReports,
-    getSingleReport
+    getSingleReport,
+    sendReport
 }

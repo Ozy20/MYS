@@ -3,19 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../../components/common/Card';
 import './reports.css';
 import reportService from '../../../services/report';
-
+import { useAuth } from '../../context/AuthContext';
 function Reports() {
     const navigate = useNavigate();
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const { user } = useAuth();
     useEffect(() => {
-        loadReports();
+        loadReports(user.role);
     }, []);
 
-    const loadReports = async () => {
+    const loadReports = async (role) => {
         try {
-            const response = await reportService.getReports();
+            const response = await reportService.getReports(role);
             setReports(response.reports || []);
         } catch (error) {
             console.error("Failed to load reports", error);

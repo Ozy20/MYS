@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import employeeService from '../../../services/employee';
+import taskService from '../../../services/task';
 import './dash.css';
 
 function ManagerDash() {
@@ -48,7 +49,17 @@ function ManagerDash() {
             alert(error);
         }
     }
-
+    const handelAssignTask = async () => {
+        try {
+            const response = await taskService.assignTask(task);
+            console.log(response);
+            alert("Task assigned successfully");
+        }
+        catch (error) {
+            console.error("Error assigning task:", error);
+            alert(error);
+        }
+    }
     return (
         <div id="dash">
             <div id="actions">
@@ -117,7 +128,7 @@ function ManagerDash() {
                             value={task.empUserName}
                             onChange={handelTaskForm}
                         />
-                        <button className="btn-submit">Assign Task</button>
+                        <button className="btn-submit" onClick={handelAssignTask}>Assign Task</button>
                     </div>
                 </div>
             </div>

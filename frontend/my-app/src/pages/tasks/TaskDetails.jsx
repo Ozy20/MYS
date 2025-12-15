@@ -3,23 +3,52 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Card from '../../components/common/Card';
 import taskService from '../../../services/task';
+import reportService from '../../../services/report';
 import './tasks.css';
 
 function TaskDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { isEmployee } = useAuth();
+    const { isEmployee, user } = useAuth();
     const [task, setTask] = useState({});
     const [reportText, setReportText] = useState('');
 
-    const handleReportSubmit = () => {
-        alert(`Report submitted for Task ${id}: ${reportText}`);
-        setReportText('');
-    };
+    const reportChangeHandeler = (e) => {
+        const val = e.target.value;
+        setReportText(val);
+        console.log(val)
+    }
+
+    const submitReport = async () => {
+        if (!reportText.trim()) {
+            alert("Please enter report content");
+            return;
+        }
+        try {
+            const payload = {
+                taskId: id,
+                reportContent: reportText,
+                reportSammary: reportText.substring(0, 50) + "..."
+            };
+            const { error } = await reportService.sendReport(payload, user.role);
+            if (!error) {
+                alert("Report submitted successfully");
+                setReportText('');
+            } else {
+                console.error(error);
+                alert("Failed to submit report");
+            }
+        }
+        catch (error) {
+            console.error("Failed to submit report", error);
+            alert("Failed to send report")
+        }
+    }
+
     useEffect(() => {
         const loadTask = async () => {
             try {
-                const { error, task } = await taskService.getSingleTask(id);
+                const { error, task } = await taskService.getSingleTask(id, user.role);
                 if (!error) {
                     setTask(task);
                 }
@@ -30,6 +59,7 @@ function TaskDetails() {
         };
         loadTask();
     }, [id]);
+
 
     return (
         <div id="tasks-page-container">
@@ -79,7 +109,7 @@ function TaskDetails() {
                         <h3 style={{ color: '#4A628A', fontSize: '1.1rem', marginBottom: '1rem' }}>Submit Report / Update</h3>
                         <textarea
                             value={reportText}
-                            onChange={(e) => setReportText(e.target.value)}
+                            onChange={(e) => reportChangeHandeler(e)}
                             placeholder="Type your progress report here..."
                             style={{
                                 width: '95%',
@@ -94,7 +124,7 @@ function TaskDetails() {
                         />
                         <button
                             className="btn-submit"
-                            onClick={handleReportSubmit}
+                            onClick={() => submitReport()}
                             style={{ width: 'auto', padding: '10px 24px' }}
                         >
                             Submit Report

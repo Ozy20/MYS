@@ -3,20 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../../components/common/Card';
 import './tasks.css';
 import taskService from '../../../services/task';
-
+import { useAuth } from '../../context/AuthContext';
 function Tasks() {
     const navigate = useNavigate();
-
+    const { user } = useAuth();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        loadTasks();
+        loadTasks(user.role);
     }, []);
 
-    const loadTasks = async () => {
+    const loadTasks = async (role) => {
         try {
-            const response = await taskService.getTasks();
+            const response = await taskService.getTasks(role);
             setTasks(response.tasks || []);
         } catch (error) {
             console.error("Failed to load tasks", error);
@@ -49,8 +49,8 @@ function Tasks() {
                                 <p>{task.description}</p>
                             </div>
                             <span className="task-status" style={{
-                                backgroundColor: task.status === 'Completed' ? '#d4edda' : task.status === 'In Progress' ? '#fff3cd' : '#f8d7da',
-                                color: task.status === 'Completed' ? '#155724' : task.status === 'In Progress' ? '#856404' : '#721c24'
+                                backgroundColor: task.status === 'completed' ? '#d4edda' : task.status === 'in-progress' ? '#fff3cd' : '#f8d7da',
+                                color: task.status === 'c   ompleted' ? '#155724' : task.status === 'in-progress' ? '#856404' : '#721c24'
                             }}>
                                 {task.status}
                             </span>

@@ -3,16 +3,16 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../../components/common/Card';
 import './reports.css';
 import reportService from '../../../services/report';
-
+import { useAuth } from '../../context/AuthContext';
 function ReportDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [report, setReport] = useState({});
-
+    const { user } = useAuth();
     useEffect(() => {
         const loadReport = async () => {
             try {
-                const { error, report } = await reportService.getSingleReport(id);
+                const { error, report } = await reportService.getSingleReport(id, user.role);
                 if (!error) {
                     setReport(report);
                 }
