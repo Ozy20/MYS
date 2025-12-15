@@ -8,6 +8,7 @@ import Tasks from './pages/tasks/Tasks.jsx'
 import TaskDetails from './pages/tasks/TaskDetails.jsx'
 import Reports from './pages/reports/Reports.jsx'
 import ReportDetails from './pages/reports/ReportDetails.jsx'
+import Employees from './pages/employees/Employees.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { createBrowserRouter, createRoutesFromChildren, Route, RouterProvider, Routes } from "react-router-dom"
 
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
         <Route path="tasks/:id" element={<TaskDetails />} />
         <Route path="reports" element={<Reports />} />
         <Route path="reports/:id" element={<ReportDetails />} />
+        <Route path="employees" element={<Employees />} />
       </Route>
     </>
   )

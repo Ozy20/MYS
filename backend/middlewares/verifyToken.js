@@ -5,12 +5,12 @@ const verifyToken = (req, res, next) => {
     if (!authHeader) {
         return res.status(401).json({ error: "Routing not allowed. No token provided" });
     }
-    try{
+    try {
         const payload = jwt.verify(authHeader, process.env.JWT_SECRET);
         req.user = payload;
         next();
     }
-    catch(err){
+    catch (err) {
         return res.status(401).json({ error: "Invalid token" });
     }
 }

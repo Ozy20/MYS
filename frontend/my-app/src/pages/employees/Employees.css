@@ -1,0 +1,54 @@
+.employees-page {
+    padding: 2rem;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+}
+
+.employees-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.employees-header h2 {
+    color: #4A628A;
+    margin: 0;
+}
+
+.btn-add {
+    background-color: #4A628A;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-add:hover {
+    background-color: #3d5175;
+}
+
+.employees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.no-employees {
+    text-align: center;
+    color: #888;
+    margin-top: 3rem;
+}
