@@ -21,8 +21,6 @@ router.post("/manager", async (req, res) => {
         }
         const token = jwt.sign({ id: manager.id, name: manager.name, role: "manager" }, process.env.JWT_SECRET, { expiresIn: "2h" });
         return res.status(200).json({ message: "Login successful", token })
-
-
     }
     catch (err) {
         return res.status(500).json({ error: "Login failed" })

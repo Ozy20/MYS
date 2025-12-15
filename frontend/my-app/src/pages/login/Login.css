@@ -1,0 +1,139 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #DFF2EB;
+}
+
+.login-box {
+  background-color: #7AB2D3;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 350px;
+  transition: all 0.3s ease;
+}
+
+.login-box:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-box h1 {
+  color: #4A628A;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #4A628A;
+  transition: border-color 0.3s ease;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 10px;
+  background-color: transparent;
+  color: #4A628A;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+  color: #DFF2EB;
+}
+
+.toggle-btn.active {
+  background-color: #4A628A;
+  color: #DFF2EB;
+  transition: all 0.3s ease;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4A628A;
+  box-shadow: 0 0 8px rgba(74, 98, 138, 0.3);
+  transform: scale(1.02);
+}
+
+.form-input::placeholder {
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.form-input:focus::placeholder {
+  color: #4A628A;
+}
+
+.form-select {
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  color: #4A628A;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: #4A628A;
+  box-shadow: 0 0 8px rgba(74, 98, 138, 0.3);
+  transform: scale(1.02);
+}
+
+.form-select option {
+  color: #4A628A;
+  background-color: white;
+}
+
+.form-btn {
+  padding: 12px 30px;
+  background-color: #4A628A;
+  color: #DFF2EB;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.form-btn:hover {
+  background-color: #3a4f6b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
