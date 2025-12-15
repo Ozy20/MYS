@@ -15,6 +15,17 @@ const getAllEmployees = async () => {
     }
 };
 
+const addEmployee = async (data) => {
+    try {
+        const response = await api.post("/manager/create-employee", data);
+        return response.data;
+    }
+    catch (axiosError) {
+        console.error("Error adding employee:", axiosError);
+        return { error: axiosError.message }
+    }
+};
+
 const deleteEmployee = async (id) => {
 
 };
@@ -23,8 +34,11 @@ const updateEmployee = async (id, data) => {
 
 };
 
+
+
 export default {
     getAllEmployees,
     deleteEmployee,
-    updateEmployee
+    updateEmployee,
+    addEmployee
 };

@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Card from '../../components/common/Card';
-import './tasks.css'; // Reusing task styles
+import taskService from '../../../services/task';
+import './tasks.css';
 
 function TaskDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { isEmployee } = useAuth();
-
-    const task = {
-        id: id,
-        title: 'Fix Login Bug',
-        description: 'Investigate and fix the login issue on mobile devices. Users are reporting timeouts when on 4G.',
-        assignee: 'john_doe',
-        status: 'Pending',
-        createdDate: '2024-12-01'
-    };
-
+    const [task, setTask] = useState({});
     const [reportText, setReportText] = useState('');
 
     const handleReportSubmit = () => {
         alert(`Report submitted for Task ${id}: ${reportText}`);
         setReportText('');
     };
+    useEffect(() => {
+        const loadTask = async () => {
+            try {
+                const { error, task } = await taskService.getSingleTask(id);
+                if (!error) {
+                    setTask(task);
+                }
+            }
+            catch (error) {
+                console.error("Failed to load task", error);
+            }
+        };
+        loadTask();
+    }, [id]);
 
     return (
         <div id="tasks-page-container">
@@ -50,8 +56,8 @@ function TaskDetails() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <h2 style={{ margin: 0, color: '#2c3e50' }}>{task.title}</h2>
                         <span className="task-status" style={{
-                            backgroundColor: task.status === 'Completed' ? '#d4edda' : task.status === 'In Progress' ? '#fff3cd' : '#f8d7da',
-                            color: task.status === 'Completed' ? '#155724' : task.status === 'In Progress' ? '#856404' : '#721c24'
+                            backgroundColor: task.status === 'Completed' ? '#d4edda' : task.status === 'in-progress' ? '#fff3cd' : '#f8d7da',
+                            color: task.status === 'Completed' ? '#155724' : task.status === 'in-progress' ? '#856404' : '#721c24'
                         }}>
                             {task.status}
                         </span>
@@ -65,7 +71,7 @@ function TaskDetails() {
 
                 <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', color: '#666', fontSize: '0.9rem' }}>
                     <div>Assigned to: <strong>{task.assignee}</strong></div>
-                    <div>Created on: <strong>{task.createdDate}</strong></div>
+                    <div>Created on: <strong>{task.createdAt}</strong></div>
                 </div>
 
                 {isEmployee && (

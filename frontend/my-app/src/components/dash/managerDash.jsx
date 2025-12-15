@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import employeeService from '../../../services/employee';
 import './dash.css';
 
 function ManagerDash() {
     const [empForm, setEmpForm] = React.useState({
         name: '',
         email: '',
+        userName: '',
         password: '',
     });
     const [task, setTask] = React.useState({
@@ -35,6 +37,18 @@ function ManagerDash() {
         });
     }
 
+    const handelAddEmp = async () => {
+        try {
+            const response = await employeeService.addEmployee(empForm);
+            console.log(response);
+            alert("Employee added successfully");
+        }
+        catch (error) {
+            console.error("Error adding employee:", error);
+            alert(error);
+        }
+    }
+
     return (
         <div id="dash">
             <div id="actions">
@@ -47,6 +61,14 @@ function ManagerDash() {
                             className='textField'
                             placeholder="Full Name"
                             value={empForm.name}
+                            onChange={handelEmpForm}
+                        />
+                        <input
+                            type="text"
+                            name="userName"
+                            className='textField'
+                            placeholder="User Name"
+                            value={empForm.userName}
                             onChange={handelEmpForm}
                         />
                         <input
@@ -65,7 +87,7 @@ function ManagerDash() {
                             value={empForm.password}
                             onChange={handelEmpForm}
                         />
-                        <button className="btn-submit">Create Account</button>
+                        <button className="btn-submit" onClick={handelAddEmp}>Create Account</button>
                     </div>
                 </div>
                 <div className="action">

@@ -1,11 +1,20 @@
 import React, { createContext, useContext, useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        id: 'u123',
-        name: 'Alice Johnson',
-        role: 'employee',
+    const [user, setUser] = useState(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                return jwtDecode(token);
+            } catch (error) {
+                console.error("Invalid token in storage", error);
+                localStorage.removeItem('token');
+                return null;
+            }
+        }
+        return null;
     });
 
     const login = (userData) => setUser(userData);

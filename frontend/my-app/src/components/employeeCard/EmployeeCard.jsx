@@ -5,10 +5,10 @@ const EmployeeCard = ({ employee, onEdit, onDelete }) => {
     return (
         <div className="employee-card">
             <div className="employee-info">
-                <h3>{employee.name}</h3>
-                <p>{employee.userName}</p>
-                <p>{employee.id}</p>
-                <p className="email">{employee.email}</p>
+                <h3>Name: {employee.name}</h3>
+                <p>User Name: {employee.userName}</p>
+                <p>ID: {employee.id}</p>
+                <p className="email">Email: {employee.email}</p>
             </div>
             <div className="employee-actions">
                 <button className="btn-edit" onClick={() => onEdit(employee)}>Modify</button>

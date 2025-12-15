@@ -1,20 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../../components/common/Card';
 import './reports.css';
+import reportService from '../../../services/report';
 
 function Reports() {
     const navigate = useNavigate();
-    // Mock data for reports
-    const reports = [
-        { id: 1, title: 'Q3 Financial Analysis', date: '2024-10-15', submittedBy: 'Alice Johnson', status: 'Approved' },
-        { id: 2, title: 'Employee Performance Review', date: '2024-10-20', submittedBy: 'Bob Smith', status: 'Pending' },
-        { id: 3, title: 'System Security Audit', date: '2024-10-22', submittedBy: 'Charlie Brown', status: 'In Review' },
-        { id: 4, title: 'Marketing Campaign ROI', date: '2024-10-25', submittedBy: 'Dana White', status: 'Rejected' },
-        { id: 5, title: 'Inventory Status Report', date: '2024-10-28', submittedBy: 'Evan Davis', status: 'Approved' },
-        { id: 6, title: 'Customer Feedback Summary', date: '2024-11-01', submittedBy: 'Fiona Green', status: 'Approved' },
-        { id: 7, title: 'IT Infrastructure Upgrade', date: '2024-11-05', submittedBy: 'George Hill', status: 'Pending' },
-    ];
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadReports();
+    }, []);
+
+    const loadReports = async () => {
+        try {
+            const response = await reportService.getReports();
+            setReports(response.reports || []);
+        } catch (error) {
+            console.error("Failed to load reports", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <div id="reports-page-container">
@@ -36,15 +45,15 @@ function Reports() {
                             }}
                         >
                             <div className="report-info">
-                                <h3>{report.title}</h3>
-                                <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.2rem' }}>Submitted on: {report.date}</p>
-                                <p style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#888' }}>By: <strong>{report.submittedBy}</strong></p>
+                                <h3>{report.taskName}</h3>
+                                <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.2rem' }}>Submitted on: {report.reportDate}</p>
+                                {/* <p style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: '#888' }}>By: <strong>{report.submittedBy}</strong></p> */}
                             </div>
                             <span className="report-status" style={{
-                                backgroundColor: report.status === 'Approved' ? '#d4edda' : report.status === 'Rejected' ? '#f8d7da' : '#fff3cd',
-                                color: report.status === 'Approved' ? '#155724' : report.status === 'Rejected' ? '#721c24' : '#856404'
+                                backgroundColor: '#d4edda',
+                                color: '#155724'
                             }}>
-                                {report.status}
+                                compeleted!
                             </span>
                         </Card>
                     ))}

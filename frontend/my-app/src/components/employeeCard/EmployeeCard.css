@@ -21,6 +21,14 @@
     font-size: 1.25rem;
 }
 
+.employee-info p {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+
+
 .employee-info .role {
     color: #666;
     font-weight: 500;

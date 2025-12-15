@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../../components/common/Card';
 import './reports.css';
+import reportService from '../../../services/report';
 
 function ReportDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const report = {
-        id: id,
-        title: 'Q3 Financial Analysis',
-        date: '2024-10-15',
-        submittedBy: 'Alice Johnson',
-        status: 'Approved',
-        content: 'This report details the financial performance of Q3. Revenue increased by 15% compared to last quarter. Key growth areas included the new subscription model and enterprise partnerships. Operating costs remained stable.'
-        , sammary: "sammary"
-    };
+    const [report, setReport] = useState({});
+
+    useEffect(() => {
+        const loadReport = async () => {
+            try {
+                const { error, report } = await reportService.getSingleReport(id);
+                if (!error) {
+                    setReport(report);
+                }
+            }
+            catch (error) {
+                console.error("Failed to load report", error);
+            }
+        };
+        loadReport();
+    }, [id]);
 
     return (
         <div id="reports-page-container">
@@ -39,7 +47,7 @@ function ReportDetails() {
             <Card style={{ flex: 1, overflowY: 'auto' }}>
                 <div style={{ borderBottom: '1px solid #eee', paddingBottom: '1rem', marginBottom: '1rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h2 style={{ margin: 0, color: '#2c3e50' }}>{report.title}</h2>
+                        <h2 style={{ margin: 0, color: '#2c3e50' }}>{report.taskName}</h2>
                         <span className="report-status" style={{
                             backgroundColor: report.status === 'Approved' ? '#d4edda' : report.status === 'Rejected' ? '#f8d7da' : '#fff3cd',
                             color: report.status === 'Approved' ? '#155724' : report.status === 'Rejected' ? '#721c24' : '#856404'
@@ -51,7 +59,7 @@ function ReportDetails() {
 
                 <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', color: '#666', fontSize: '0.9rem' }}>
                     <div>Submitted by: <strong>{report.submittedBy}</strong></div>
-                    <div>Date: <strong>{report.date}</strong></div>
+                    <div>Date: <strong>{report.reportDate}</strong></div>
                 </div>
 
                 <div style={{ marginBottom: '2rem' }}>
@@ -64,7 +72,7 @@ function ReportDetails() {
                         color: '#444',
                         lineHeight: '1.8'
                     }}>
-                        {report.content}
+                        {report.reportContent}
                     </div>
                 </div>
                 <div style={{ marginBottom: '2rem' }}>
@@ -77,7 +85,7 @@ function ReportDetails() {
                         color: '#444',
                         lineHeight: '1.8'
                     }}>
-                        {report.sammary}
+                        {report.reportSammary}
                     </div>
                 </div>
             </Card>
