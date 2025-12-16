@@ -23,7 +23,7 @@ function Employees() {
     };
 
     const handleEdit = (employee) => {
-        alert(`Modify feature coming soon for: ${employee.name}`);
+        ;
     };
 
     const handleDelete = async (userName) => {

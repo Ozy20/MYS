@@ -64,6 +64,17 @@ function ManagerDash() {
     }
     return (
         <div id="dash">
+            <div className="analysis" style={{}}>
+                <div className="no">
+                    <h2>Total Employees <span className="number">{user.numOfEmployees}</span></h2>
+                </div>
+                <div className="no">
+                    <h2>Total Tasks <span className="number">{user.numOfTasks}</span></h2>
+                </div>
+                <div className="no">
+                    <h2>Total Reports <span className="number">{user.numOfReports}</span></h2>
+                </div>
+            </div>
             <div id="actions">
                 <div className="action">
                     <h2>Add Employee</h2>
@@ -134,17 +145,7 @@ function ManagerDash() {
                     </div>
                 </div>
             </div>
-            <div className="analysis" style={{ display: "flex", justifyContent: "center" }}>
-                <div className="no">
-                    <h2>Total Employees <span className="number">{user.numOfEmployees}</span></h2>
-                </div>
-                <div className="no">
-                    <h2>Total Tasks <span className="number">{user.numOfTasks}</span></h2>
-                </div>
-                <div className="no">
-                    <h2>Total Reports <span className="number">{user.numOfReports}</span></h2>
-                </div>
-            </div>
+
         </div>
     );
 }

@@ -37,6 +37,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
+    align-items: start;
 }
 
 .loading {
@@ -52,4 +53,11 @@
     text-align: center;
     color: #888;
     margin-top: 3rem;
+}
+
+.analysis {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
 }

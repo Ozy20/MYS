@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: space-between;
     transition: transform 0.2s, box-shadow 0.2s;
-    height: 100%;
+
 }
 
 .employee-card:hover {
@@ -73,4 +73,72 @@
 
 .btn-delete:hover {
     background-color: #c82333;
+}
+
+/* Edit Form Styles */
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.employee-edit {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    animation: slideDownFade 0.3s ease-out forwards;
+}
+
+.employee-edit input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.employee-edit input:focus {
+    outline: none;
+    border-color: #4A628A;
+    box-shadow: 0 0 0 2px rgba(74, 98, 138, 0.1);
+}
+
+.employee-edit button {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+.employee-edit .btn-save {
+    background-color: #28a745;
+    color: white;
+    margin-top: 0.5rem;
+}
+
+.employee-edit .btn-save:hover {
+    background-color: #218838;
+}
+
+.employee-edit .btn-cancel {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #dee2e6;
+    margin-top: 0.25rem;
+}
+
+.employee-edit .btn-cancel:hover {
+    background-color: #e2e6ea;
 }
