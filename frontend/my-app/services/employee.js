@@ -26,12 +26,26 @@ const addEmployee = async (data) => {
     }
 };
 
-const deleteEmployee = async (id) => {
-
+const deleteEmployee = async (empUserName) => {
+    try {
+        const response = await api.delete(`/manager/delete-employee/`, { data: { empUserName } });
+        return response.data;
+    }
+    catch (axiosError) {
+        console.error("Error deleting employee:", axiosError);
+        return { error: axiosError.message }
+    }
 };
 
 const updateEmployee = async (id, data) => {
-
+    try {
+        const response = await api.put(`/manager/employees/${id}`, data);
+        return response.data;
+    }
+    catch (axiosError) {
+        console.error("Error updating employee:", axiosError);
+        return { error: axiosError.message }
+    }
 };
 
 

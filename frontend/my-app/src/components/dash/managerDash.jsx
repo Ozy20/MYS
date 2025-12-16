@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import employeeService from '../../../services/employee';
 import taskService from '../../../services/task';
+import { useAuth } from '../../context/AuthContext';
 import './dash.css';
 
 function ManagerDash() {
+    const { user } = useAuth();
     const [empForm, setEmpForm] = React.useState({
         name: '',
         email: '',
@@ -132,9 +134,15 @@ function ManagerDash() {
                     </div>
                 </div>
             </div>
-            <div className="analysis">
-                <div className="emp-no">
-                    <h2>Total Employees <span className="number">25</span></h2>
+            <div className="analysis" style={{ display: "flex", justifyContent: "center" }}>
+                <div className="no">
+                    <h2>Total Employees <span className="number">{user.numOfEmployees}</span></h2>
+                </div>
+                <div className="no">
+                    <h2>Total Tasks <span className="number">{user.numOfTasks}</span></h2>
+                </div>
+                <div className="no">
+                    <h2>Total Reports <span className="number">{user.numOfReports}</span></h2>
                 </div>
             </div>
         </div>

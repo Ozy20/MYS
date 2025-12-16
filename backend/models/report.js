@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: { msg: "Name cannot be empty" }
             }
         },
+        empName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        }
+        ,
         taskId: {
             type: DataTypes.INTEGER,
             allowNull: false,

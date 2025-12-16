@@ -12,7 +12,7 @@ const EmployeeCard = ({ employee, onEdit, onDelete }) => {
             </div>
             <div className="employee-actions">
                 <button className="btn-edit" onClick={() => onEdit(employee)}>Modify</button>
-                <button className="btn-delete" onClick={() => onDelete(employee.id)}>Delete</button>
+                <button className="btn-delete" onClick={() => onDelete(employee.userName)}>Delete</button>
             </div>
         </div>
     );

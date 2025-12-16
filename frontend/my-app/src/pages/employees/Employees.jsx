@@ -26,11 +26,18 @@ function Employees() {
         alert(`Modify feature coming soon for: ${employee.name}`);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (userName) => {
         if (window.confirm("Are you sure you want to delete this employee?")) {
             try {
-                await employeeService.deleteEmployee(id);
-                setEmployees(employees.filter(emp => emp.id !== id));
+                const response = await employeeService.deleteEmployee(userName);
+
+                if (response.success) {
+                    alert("Employee deleted successfully");
+                    setEmployees(employees.filter(emp => emp.userName !== userName));
+                }
+                else {
+                    alert(response.message);
+                }
             } catch (error) {
                 console.error("Failed to delete employee", error);
                 alert("Failed to delete employee");

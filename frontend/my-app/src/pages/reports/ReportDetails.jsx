@@ -58,7 +58,7 @@ function ReportDetails() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', color: '#666', fontSize: '0.9rem' }}>
-                    <div>Submitted by: <strong>{report.submittedBy}</strong></div>
+                    <div>Submitted by: <strong>{report.empName}</strong></div>
                     <div>Date: <strong>{report.reportDate}</strong></div>
                 </div>
 

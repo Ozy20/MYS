@@ -50,14 +50,16 @@ const getReportById = async (req, res) => {
 }
 
 const createReport = async (req, res) => {
+    let t;
     try {
+        t = await db.sequelize.transaction();
         if (req.user.role !== 'employee') {
             return res.status(403).json({ error: "Only employees can create reports" });
         }
 
-        const { taskId, reportContent, reportSammary } = req.body;
+        const { taskId, reportContent } = req.body;
 
-        if (!taskId || !reportContent || !reportSammary) {
+        if (!taskId || !reportContent) {
             return res.status(400).json({ error: "All fields are required" });
         }
 
@@ -70,18 +72,24 @@ const createReport = async (req, res) => {
             taskId,
             taskName: task.title,
             reportContent,
-            reportSammary,
+            reportSammary: "No summary",
             employeeId: req.user.id,
+            empName: req.user.name,
             managerId: task.managerId,
             reportDate: new Date()
-        });
+        }, { transaction: t });
         task.status = "completed";
-        await task.save();
+        await task.save({ transaction: t });
+        const manager = await db.Manager.findOne({ where: { id: task.managerId }, transaction: t });
+        manager.numOfReports++;
+        await manager.save({ transaction: t });
+        await t.commit();
 
         return res.status(201).json({ message: "Report created successfully", report: newReport });
     }
     catch (err) {
         console.error("Create report error:", err);
+        await t.rollback();
         return res.status(500).json({ error: "Failed to create report", details: err.message });
     }
 }

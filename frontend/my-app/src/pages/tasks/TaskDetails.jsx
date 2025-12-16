@@ -100,7 +100,7 @@ function TaskDetails() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem', color: '#666', fontSize: '0.9rem' }}>
-                    <div>Assigned to: <strong>{task.assignee}</strong></div>
+                    <div>Assigned to: <strong>{task.empName}</strong></div>
                     <div>Created on: <strong>{task.createdAt}</strong></div>
                 </div>
 

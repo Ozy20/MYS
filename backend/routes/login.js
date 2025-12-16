@@ -19,7 +19,11 @@ router.post("/manager", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ error: "Invalid email or password" })
         }
-        const token = jwt.sign({ id: manager.id, name: manager.name, role: "manager" }, process.env.JWT_SECRET, { expiresIn: "2h" });
+        const token = jwt.sign({
+            id: manager.id, name: manager.name, role: "manager",
+            numOfEmployees: manager.numOfEmployees, numOfTasks: manager.numOfTasks,
+            numOfReports: manager.numOfReports
+        }, process.env.JWT_SECRET, { expiresIn: "2h" });
         return res.status(200).json({ message: "Login successful", token })
     }
     catch (err) {

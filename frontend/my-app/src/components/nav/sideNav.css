@@ -1,4 +1,4 @@
-#nav-container{
+#nav-container {
     height: 100vh;
     background-color: #DFF2EB;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -8,31 +8,49 @@
     z-index: 1000;
     min-width: 250px;
 }
-#nav{
+
+#nav {
     display: flex;
     flex-direction: column;
     padding: 10px;
 }
-#title{
-    font-size:2.5rem;
+
+#title {
+    font-size: 2.5rem;
     font-weight: bold;
     color: #4A628A;
     text-align: left;
     font-family: monospace;
     margin-left: 7px;
+    margin-right: 5px;
     display: flex;
     align-items: center;
 }
-#header{
+
+#log-out {
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.3s ease;
+}
+
+#log-out:hover {
+    transform: translate(3px, 0);
+    color: #DFF2EB;
+    opacity: 70%;
+}
+
+#header {
     display: flex;
     align-items: center;
     gap: 5px;
     padding: 7px;
 }
-#header svg{
+
+#header svg {
     flex-shrink: 0;
 }
-.nav-option{
+
+.nav-option {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -47,21 +65,26 @@
     transition: all 0.3s ease;
     /* box-shadow: 2px 2px 5px #182234; */
 }
-.nav-option:hover{
+
+.nav-option:hover {
     background-color: rgba(74, 98, 138, 0.1);
 }
-.nav-option.selected{
+
+.nav-option.selected {
     background-color: #4A628A;
     color: #DFF2EB;
 }
-.nav-option.selected svg{
+
+.nav-option.selected svg {
     color: #DFF2EB;
 }
-.nav-option svg{
+
+.nav-option svg {
     flex-shrink: 0;
     color: #4A628A;
     transition: color 0.3s ease;
 }
-.nav-option span{
+
+.nav-option span {
     white-space: nowrap;
 }

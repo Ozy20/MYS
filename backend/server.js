@@ -27,11 +27,11 @@ app.use("/signup", signupRoutes)
 app.use("/manager", managerRoutes)
 app.use("/employee", employeeRoutes)
 
-db.sequelize.sync().then(()=>{
+db.sequelize.sync().then(() => {
     console.log("Database synchronized")
     app.listen(PORT, () => {
-    console.log(`Hello, day 3 of dev,running on port ${PORT}`)
-})
-}).catch((err)=>{
+        console.log(`Hello, day 3 of dev,running on port ${PORT}`)
+    })
+}).catch((err) => {
     console.error("Error synchronizing database:", err)
 })

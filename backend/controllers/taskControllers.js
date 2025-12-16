@@ -19,7 +19,9 @@ const getAllTasks = async (req, res) => {
 }
 
 const assignTask = async (req, res) => {
+    let t;
     try {
+        t = await db.sequelize.transaction();
         const { title, description, empUserName } = req.body
         if (!title || !description || !empUserName) {
             return res.status(400).json({ error: "All fields are required" });
@@ -31,17 +33,23 @@ const assignTask = async (req, res) => {
         if (employee.managerId !== req.user.id) {
             return res.status(403).json({ error: "You are not authorized to assign tasks to this employee" });
         }
+        const manager = await db.Manager.findOne({ where: { id: req.user.id }, transaction: t });
+        manager.numOfTasks++;
+        await manager.save({ transaction: t });
         const newTask = await db.Task.create({
-            title, 
+            title,
             description,
+            empName: employee.name,
             employeeId: employee.id,
             managerId: req.user.id,
             status: "in-progress"
-        });
+        }, { transaction: t });
+        await t.commit();
         return res.status(201).json({ message: "Task assigned successfully", task: newTask });
     }
     catch (err) {
         console.error("Assign task error:", err);
+        await t.rollback();
         return res.status(500).json({ error: "Failed to assign task", details: err.message });
 
     }
@@ -65,7 +73,7 @@ const getTaskById = async (req, res) => {
     catch (err) {
         console.error("Fetch task error:", err);
         return res.status(500).json({ error: "Failed to fetch task", details: err.message });
-     }
+    }
 }
 
 module.exports = {

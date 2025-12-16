@@ -29,14 +29,19 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false
             },
+            empName: {
+                type: DataTypes.STRING,
+                allowNull: false
+            }
+            ,
             managerId: {
                 type: DataTypes.INTEGER,
                 allowNull: false
             },
-            date:{
+            date: {
                 type: DataTypes.DATE,
-                allowNull:false,
-                defaultValue:DataTypes.NOW
+                allowNull: false,
+                defaultValue: DataTypes.NOW
             }
         }
 
