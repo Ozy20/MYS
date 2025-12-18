@@ -9,8 +9,15 @@ import './Login.css';
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const { login: contextLogin } = useAuth();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-
+  const errors = {
+    nameLength: "name length should be between 4 and 20",
+    missingField: "Missing field is required",
+    emailFormat: "Email format is invalid",
+    passwordLength: "Password length should be between 8 "
+  }
   const [signupForm, setSignupForm] = useState({
     name: "",
     email: "",
@@ -40,6 +47,12 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
+      const { email, password, role } = loginForm
+      if (!email || !password || !role) {
+        setError(errors.missingField)
+        setSuccess("")
+        return;
+      }
       const response = await login(loginForm);
       console.log("Login Success:", response);
       const decodedUser = jwtDecode(response.data.token);
@@ -49,20 +62,43 @@ function Login() {
 
     } catch (error) {
       console.error("Login Failed:", error);
-      alert(error.message || "Login failed");
+      setError(error.message || "Login failed");
     }
   };
 
   const handleSignupSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //prevents default form submission behavior(refresh)
     try {
+      const { name, email, password } = signupForm;
+      if (!name || !email || !password) {
+        setError(errors.missingField);
+        setSuccess("")
+        return;
+      }
+      if (name.length < 4 || name.length > 20) {
+        setError(errors.nameLength);
+        setSuccess("")
+        return;
+      }
+      if (password.length < 8) {
+        setError(errors.passwordLength);
+        setSuccess("")
+        return;
+      }
+      if (!email.includes("@" || ".")) {
+        setError(errors.emailFormat);
+        setSuccess("")
+        return;
+      }
       const response = await signup(signupForm);
       console.log("Signup Success:", response);
-      alert("Signup Successful! Please Login.");
+      setSuccess("Signup Successful! Please Login.");
+      setError("");
       setIsLogin(true);
     } catch (error) {
       console.error("Signup Failed:", error);
-      alert(error.message || "Signup failed");
+      setError(error.message || "Signup failed");
+      setSuccess("");
     }
   };
 
@@ -156,6 +192,8 @@ function Login() {
           </form>
         )}
       </div>
+      {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
     </div>
   );
 }

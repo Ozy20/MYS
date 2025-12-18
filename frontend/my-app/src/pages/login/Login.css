@@ -1,9 +1,23 @@
+.error {
+  color: #151b38;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.success {
+  color: green;
+  font-size: 12px;
+  font-family: monospace;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #DFF2EB;
+  display: flex;
+  flex-direction: column;
 }
 
 .login-box {

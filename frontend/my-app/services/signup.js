@@ -1,8 +1,8 @@
 import api from "./api"
 
-const signup = (userData) => {
+const signup = async (userData) => {
     try {
-        const response = api.post("/signup", userData);
+        const response = await api.post("/signup", userData);
         return response;
     }
     catch (axiosError) {
