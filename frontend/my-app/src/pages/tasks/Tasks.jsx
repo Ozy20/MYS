@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../../components/common/Card';
 import './tasks.css';
-import taskService from '../../../services/task';
 import { useAuth } from '../../context/AuthContext';
+import { loadTasks } from '../../handelers/tasksHandlers';
+
 function Tasks() {
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -11,19 +12,8 @@ function Tasks() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        loadTasks(user.role);
+        loadTasks(user.role, setTasks, setLoading);
     }, []);
-
-    const loadTasks = async (role) => {
-        try {
-            const response = await taskService.getTasks(role);
-            setTasks(response.tasks || []);
-        } catch (error) {
-            console.error("Failed to load tasks", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <div id="tasks-page-container">

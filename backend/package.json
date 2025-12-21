@@ -13,6 +13,8 @@
   "dependencies": {
     "@google/genai": "^1.33.0",
     "@google/generative-ai": "^0.24.1",
+    "@langchain/core": "^1.1.7",
+    "@langchain/google-genai": "^2.1.2",
     "ajv": "^8.17.1",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",

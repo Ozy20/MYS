@@ -1,10 +1,13 @@
-import { jwtDecode } from "jwt-decode";
 import React, { useState } from 'react';
-import signup from '../../../services/signup';
-import login from '../../../services/login';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
+import {
+  handleLoginChange,
+  handleSignupChange,
+  handleLoginSubmit,
+  handleSignupSubmit
+} from '../../handelers/loginHandlers';
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,12 +15,7 @@ function Login() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  const errors = {
-    nameLength: "name length should be between 4 and 20",
-    missingField: "Missing field is required",
-    emailFormat: "Email format is invalid",
-    passwordLength: "Password length should be between 8 "
-  }
+
   const [signupForm, setSignupForm] = useState({
     name: "",
     email: "",
@@ -28,79 +26,6 @@ function Login() {
     password: "",
     role: "employee"
   })
-
-
-  const handleSignupChange = (e) => {
-    setSignupForm({
-      ...signupForm,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleLoginChange = (e) => {
-    setLoginForm({
-      ...loginForm,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { email, password, role } = loginForm
-      if (!email || !password || !role) {
-        setError(errors.missingField)
-        setSuccess("")
-        return;
-      }
-      const response = await login(loginForm);
-      console.log("Login Success:", response);
-      const decodedUser = jwtDecode(response.data.token);
-      console.log("Decoded Token:", decodedUser);
-      contextLogin(decodedUser);
-      navigate(`/app/${decodedUser.role === "manager" ? "dashboard" : "tasks"}`);
-
-    } catch (error) {
-      console.error("Login Failed:", error);
-      setError(error.message || "Login failed");
-    }
-  };
-
-  const handleSignupSubmit = async (e) => {
-    e.preventDefault(); //prevents default form submission behavior(refresh)
-    try {
-      const { name, email, password } = signupForm;
-      if (!name || !email || !password) {
-        setError(errors.missingField);
-        setSuccess("")
-        return;
-      }
-      if (name.length < 4 || name.length > 20) {
-        setError(errors.nameLength);
-        setSuccess("")
-        return;
-      }
-      if (password.length < 8) {
-        setError(errors.passwordLength);
-        setSuccess("")
-        return;
-      }
-      if (!email.includes("@" || ".")) {
-        setError(errors.emailFormat);
-        setSuccess("")
-        return;
-      }
-      const response = await signup(signupForm);
-      console.log("Signup Success:", response);
-      setSuccess("Signup Successful! Please Login.");
-      setError("");
-      setIsLogin(true);
-    } catch (error) {
-      console.error("Signup Failed:", error);
-      setError(error.message || "Signup failed");
-      setSuccess("");
-    }
-  };
 
   return (
     <div className="login-container">
@@ -123,12 +48,12 @@ function Login() {
         </div>
 
         {isLogin ? (
-          <form className="form" onSubmit={handleLoginSubmit}>
+          <form className="form" onSubmit={(e) => handleLoginSubmit(e, loginForm, setError, setSuccess, contextLogin, navigate)}>
             <select
               className="form-select"
               name="role"
               value={loginForm.role}
-              onChange={handleLoginChange}
+              onChange={(e) => handleLoginChange(e, loginForm, setLoginForm)}
               style={{ marginBottom: '1rem' }}
             >
               <option value="employee">Employee</option>
@@ -140,7 +65,7 @@ function Login() {
               placeholder="Email"
               className="form-input"
               value={loginForm.email}
-              onChange={handleLoginChange}
+              onChange={(e) => handleLoginChange(e, loginForm, setLoginForm)}
             />
             <input
               type="password"
@@ -148,7 +73,7 @@ function Login() {
               placeholder="Password"
               className="form-input"
               value={loginForm.password}
-              onChange={handleLoginChange}
+              onChange={(e) => handleLoginChange(e, loginForm, setLoginForm)}
             />
             <button
               type="submit"
@@ -158,14 +83,14 @@ function Login() {
             </button>
           </form>
         ) : (
-          <form className="form" onSubmit={handleSignupSubmit}>
+          <form className="form" onSubmit={(e) => handleSignupSubmit(e, signupForm, setError, setSuccess, setIsLogin)}>
             <input
               type="text"
               name="name"
               placeholder="Full Name"
               className="form-input"
               value={signupForm.name}
-              onChange={handleSignupChange}
+              onChange={(e) => handleSignupChange(e, signupForm, setSignupForm)}
             />
             <input
               type="email"
@@ -173,7 +98,7 @@ function Login() {
               placeholder="Email"
               className="form-input"
               value={signupForm.email}
-              onChange={handleSignupChange}
+              onChange={(e) => handleSignupChange(e, signupForm, setSignupForm)}
             />
             <input
               type="password"
@@ -181,7 +106,7 @@ function Login() {
               placeholder="Password"
               className="form-input"
               value={signupForm.password}
-              onChange={handleSignupChange}
+              onChange={(e) => handleSignupChange(e, signupForm, setSignupForm)}
             />
             <button
               type="submit"

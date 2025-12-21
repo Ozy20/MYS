@@ -39,7 +39,7 @@ const deleteEmployee = async (empUserName) => {
 
 const updateEmployee = async (id, data) => {
     try {
-        const response = await api.put(`/manager/employees/${id}`, data);
+        const response = await api.put(`/manager/modify-employees/${id}`, data);
         return response.data;
     }
     catch (axiosError) {

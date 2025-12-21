@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeCard from '../../components/employeeCard/EmployeeCard';
-import employeeService from '../../../services/employee';
+import { loadEmployees, handleDelete, handleEdit } from '../../handelers/employeesHandlers';
 import './Employees.css';
 
 function Employees() {
@@ -8,42 +8,8 @@ function Employees() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        loadEmployees();
+        loadEmployees(setEmployees, setLoading);
     }, []);
-
-    const loadEmployees = async () => {
-        try {
-            const response = await employeeService.getAllEmployees();
-            setEmployees(response.employees || []);
-        } catch (error) {
-            console.error("Failed to load employees", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleEdit = (employee) => {
-        ;
-    };
-
-    const handleDelete = async (userName) => {
-        if (window.confirm("Are you sure you want to delete this employee?")) {
-            try {
-                const response = await employeeService.deleteEmployee(userName);
-
-                if (response.success) {
-                    alert("Employee deleted successfully");
-                    setEmployees(employees.filter(emp => emp.userName !== userName));
-                }
-                else {
-                    alert(response.message);
-                }
-            } catch (error) {
-                console.error("Failed to delete employee", error);
-                alert("Failed to delete employee");
-            }
-        }
-    };
 
     if (loading) return <div className="loading">Loading...</div>;
 
@@ -59,7 +25,7 @@ function Employees() {
                         key={employee.id}
                         employee={employee}
                         onEdit={handleEdit}
-                        onDelete={handleDelete}
+                        onDelete={(userName) => handleDelete(userName, employees, setEmployees)}
                     />
                 ))}
             </div>

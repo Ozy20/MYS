@@ -33,6 +33,7 @@ const sendReport = async (report, role) => {
     }
 }
 
+
 export default {
     getReports,
     getSingleReport,

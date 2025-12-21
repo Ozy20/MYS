@@ -30,9 +30,11 @@ const createEmployee = async (req, res) => {
         if (existingEmployee) {
             return res.status(400).json({ error: "Employee with this email or the userName already exists" });
         }
-        const newEmployee = await db.Employee.create({ name, email, userName,
-             password, managerId: req.user.id },{transaction: t});
-        await db.Manager.increment('numOfEmployees', { by: 1, where: { id: req.user.id } },{transaction: t});
+        const newEmployee = await db.Employee.create({
+            name, email, userName,
+            password, managerId: req.user.id
+        }, { transaction: t });
+        await db.Manager.increment('numOfEmployees', { by: 1, where: { id: req.user.id } }, { transaction: t });
         await t.commit();
         return res.status(201).json({ message: "Employee created successfully", employee: newEmployee });
     }
@@ -41,21 +43,21 @@ const createEmployee = async (req, res) => {
         return res.status(500).json({ error: "Failed to create employee", details: err.message });
     }
 }
-const getEmployeeById = async (req,res)=>{
-    try{
+const getEmployeeById = async (req, res) => {
+    try {
         const { empId } = req.params;
         const employee = await db.Employee.findOne({ where: { id: empId, managerId: req.user.id } });
-        if(!employee){
+        if (!employee) {
             return res.status(404).json({ error: "Employee not found or not authorized" });
         }
-        if(req.user.id !== employee.managerId){
+        if (req.user.id !== employee.managerId) {
             return res.status(403).json({ error: "You are not authorized to access this employee's details" });
         }
         return res.status(200).json({ message: "Employee details fetched successfully", employee });
     }
-    catch(err){
+    catch (err) {
         //ERROR DETAILS
-        return res.status(500).json({ error: "Failed to fetch employee details" , details: err.message });
+        return res.status(500).json({ error: "Failed to fetch employee details", details: err.message });
     }
 }
 
@@ -77,11 +79,30 @@ const deleteEmployee = async (req, res) => {
     }
 }
 
+const modifyEmployee = async (req, res) => {
+    try {
+        const { empId } = req.params;
+        const employee = await db.Employee.findOne({ where: { id: empId, managerId: req.user.id } });
+        if (!employee) {
+            return res.status(404).json({ error: "Employee not found or not authorized" });
+        }
+        if (req.user.id !== employee.managerId) {
+            return res.status(403).json({ error: "You are not authorized to modify this employee" });
+        }
+        await db.Employee.update(req.body, { where: { id: empId } });
+        return res.status(200).json({ message: "Employee modified successfully" });
+    }
+    catch (err) {
+        //ERROR DETAILS
+        return res.status(500).json({ error: "Failed to modify employee", details: err.message });
+    }
+}
 
 
 module.exports = {
     getAllEmployees,
     createEmployee,
     deleteEmployee,
-    getEmployeeById
+    getEmployeeById,
+    modifyEmployee
 }

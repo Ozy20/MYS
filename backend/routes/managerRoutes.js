@@ -26,4 +26,6 @@ router.get('/tasks', verifyToken, isManager, taskControllers.getAllTasks);
 router.get('/tasks/:taskId', verifyToken, isManager, taskControllers.getTaskById);
 //assign task
 router.post('/assign-task', verifyToken, isManager, taskControllers.assignTask);
+//modify employee
+router.put('/modify-employees/:empId', verifyToken, isManager, managerControllers.modifyEmployee);
 module.exports = router;
