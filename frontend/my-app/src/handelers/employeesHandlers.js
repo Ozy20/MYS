@@ -30,7 +30,26 @@ export const handleDelete = async (userName, employees, setEmployees) => {
     }
 };
 
-export const handleEdit = (employee) => {
-    // Placeholder for edit functionality
-    console.log("Edit employee:", employee);
+export const handleEdit = async (updatedEmployee, employees, setEmployees) => {
+    if (!updatedEmployee.name && !updatedEmployee.email && !updatedEmployee.userName) {
+        alert("You need to fill at least one field");
+        return;
+    }
+
+    try {
+
+        const response = await employeeService.updateEmployee(updatedEmployee.id, updatedEmployee);
+
+        if (response.message === "Employee modified successfully") {
+            alert("Employee updated successfully");
+            setEmployees(employees.map(emp =>
+                emp.id === updatedEmployee.id ? updatedEmployee : emp
+            ));
+        } else {
+            alert(response.error || "Failed to update employee");
+        }
+    } catch (error) {
+        console.error("Failed to update employee", error);
+        alert("Failed to update employee");
+    }
 };

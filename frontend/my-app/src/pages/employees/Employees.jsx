@@ -24,7 +24,7 @@ function Employees() {
                     <EmployeeCard
                         key={employee.id}
                         employee={employee}
-                        onEdit={handleEdit}
+                        onEdit={(employee) => handleEdit(employee, employees, setEmployees)}
                         onDelete={(userName) => handleDelete(userName, employees, setEmployees)}
                     />
                 ))}
