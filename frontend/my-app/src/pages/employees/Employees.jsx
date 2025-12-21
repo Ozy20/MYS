@@ -9,7 +9,7 @@ function Employees() {
 
     useEffect(() => {
         loadEmployees(setEmployees, setLoading);
-    }, []);
+    }, [employees]);
 
     if (loading) return <div className="loading">Loading...</div>;
 
