@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import employeeService from '../../../services/employee';
-import taskService from '../../../services/task';
 import { useAuth } from '../../context/AuthContext';
 import './dash.css';
+import { handelEmpForm, handelTaskForm, handelAddEmp, handelAssignTask } from '../../handelers/managerHandlers';
 
 function ManagerDash() {
     const { user } = useAuth();
@@ -25,43 +24,6 @@ function ManagerDash() {
     useEffect(() => {
         console.log("Updated task:", task);
     }, [task]);
-
-    const handelEmpForm = (e) => {
-        setEmpForm({
-            ...empForm,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    const handelTaskForm = (e) => {
-        setTask({
-            ...task,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    const handelAddEmp = async () => {
-        try {
-            const response = await employeeService.addEmployee(empForm);
-            console.log(response);
-            alert("Employee added successfully");
-        }
-        catch (error) {
-            console.error("Error adding employee:", error);
-            alert(error);
-        }
-    }
-    const handelAssignTask = async () => {
-        try {
-            const response = await taskService.assignTask(task);
-            console.log(response);
-            alert("Task assigned successfully");
-        }
-        catch (error) {
-            console.error("Error assigning task:", error);
-            alert(error);
-        }
-    }
     return (
         <div id="dash">
             <div className="analysis" style={{}}>
@@ -90,7 +52,7 @@ function ManagerDash() {
                             className='textField'
                             placeholder="Full Name"
                             value={empForm.name}
-                            onChange={handelEmpForm}
+                            onChange={(e) => handelEmpForm(e, empForm, setEmpForm)}
                         />
                         <input
                             type="text"
@@ -98,7 +60,7 @@ function ManagerDash() {
                             className='textField'
                             placeholder="User Name"
                             value={empForm.userName}
-                            onChange={handelEmpForm}
+                            onChange={(e) => handelEmpForm(e, empForm, setEmpForm)}
                         />
                         <input
                             type="text"
@@ -106,7 +68,7 @@ function ManagerDash() {
                             className='textField'
                             placeholder="Email Address"
                             value={empForm.email}
-                            onChange={handelEmpForm}
+                            onChange={(e) => handelEmpForm(e, empForm, setEmpForm)}
                         />
                         <input
                             type="password"
@@ -114,9 +76,9 @@ function ManagerDash() {
                             className='textField'
                             placeholder="Password"
                             value={empForm.password}
-                            onChange={handelEmpForm}
+                            onChange={(e) => handelEmpForm(e, empForm, setEmpForm)}
                         />
-                        <button className="btn-submit" onClick={handelAddEmp}>Create Account</button>
+                        <button className="btn-submit" onClick={() => handelAddEmp(empForm)}>Create Account</button>
                     </div>
                 </div>
                 <div className="action">
@@ -128,7 +90,7 @@ function ManagerDash() {
                             className='textField'
                             placeholder="Task Title"
                             value={task.title}
-                            onChange={handelTaskForm}
+                            onChange={(e) => handelTaskForm(e, task, setTask)}
                         />
                         <input
                             type="text"
@@ -136,7 +98,7 @@ function ManagerDash() {
                             className='textField'
                             placeholder="Task Description"
                             value={task.description}
-                            onChange={handelTaskForm}
+                            onChange={(e) => handelTaskForm(e, task, setTask)}
                         />
                         <input
                             type="text"
@@ -144,9 +106,9 @@ function ManagerDash() {
                             className='textField'
                             placeholder="Assign To (Username)"
                             value={task.empUserName}
-                            onChange={handelTaskForm}
+                            onChange={(e) => handelTaskForm(e, task, setTask)}
                         />
-                        <button className="btn-submit" onClick={handelAssignTask}>Assign Task</button>
+                        <button className="btn-submit" onClick={() => handelAssignTask(task)}>Assign Task</button>
                     </div>
                 </div>
             </div>
